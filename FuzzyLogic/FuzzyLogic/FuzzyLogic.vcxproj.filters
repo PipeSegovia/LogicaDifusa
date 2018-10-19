@@ -13,10 +13,28 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de origen\Entradas Difusas">
+      <UniqueIdentifier>{b17f2a16-45cb-4794-9db2-7f0286c8e3d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\EntradasDifusas">
+      <UniqueIdentifier>{a871a188-84c7-41ec-a575-1e6ae278da74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Clases Genericas">
+      <UniqueIdentifier>{df8234ab-e6cd-4c62-8780-482ed37ff4a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Clases Genericas">
+      <UniqueIdentifier>{4f0165bf-263a-4366-99a7-bb97c8061891}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="FuzzyInput.h">
+      <Filter>Archivos de encabezado\EntradasDifusas</Filter>
+    </ClInclude>
+    <ClInclude Include="FuzzySet.h">
+      <Filter>Archivos de encabezado\Clases Genericas</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -25,6 +43,12 @@
     </ClCompile>
     <ClCompile Include="FuzzyLogic.cpp">
       <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzyInput.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzySet.cpp">
+      <Filter>Archivos de origen\Clases Genericas</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
