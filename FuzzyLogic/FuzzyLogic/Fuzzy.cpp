@@ -31,17 +31,43 @@ bool Fuzzy::addFuzzyInput(FuzzyInput * fuzzyInput)
 	}
 	else
 	{
-		this->fuzzyInputs->next = aux;
-	}
+		fuzzyInputArray *auxFuzzyInput = (fuzzyInputArray*)malloc(sizeof(fuzzyInputArray));
+		auxFuzzyInput = this->fuzzyInputs;
+		auxFuzzyInput->next = NULL;
 
+		this->fuzzyInputs = aux;	
+		aux->next = auxFuzzyInput;
+
+	}
+	
 	return true;
+}
+
+int Fuzzy::sizeFuzzyInputArray()
+{
+	int cont = 1;
+	if (this->fuzzyInputs == NULL)
+	{
+		return 0;
+	}
+	else
+	{
+		while (this->fuzzyInputs != NULL)
+		{
+			cont++;
+			this->fuzzyInputs = this->fuzzyInputs->next;
+		}
+		return cont;
+	}
+	return 0;
 }
 
 bool Fuzzy::fuzzify()
 {
-	fuzzyInputArray *fuzzyInputAux;
+	fuzzyInputArray *fuzzyInputAux = (fuzzyInputArray*)malloc(sizeof(fuzzyInputArray));
 
 	fuzzyInputAux = this->fuzzyInputs;
+	fuzzyInputAux->next = NULL;
 	//Inicializo las pertenencias en 0
 	while (fuzzyInputAux != NULL)
 	{
@@ -58,9 +84,9 @@ bool Fuzzy::fuzzify()
 		fuzzySetAux = fuzzyInputAux->fuzzyInput->getFuzzySets();
 		while (fuzzySetAux != NULL)
 		{
-			fuzzySetAux->fuzzySet->calculatePertinence();
+		//	fuzzySetAux->fuzzySet->calculatePertinence();
 		}
 	}
-
+	
 	return true;
 }

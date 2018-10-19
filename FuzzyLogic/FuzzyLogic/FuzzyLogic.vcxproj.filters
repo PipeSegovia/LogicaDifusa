@@ -62,17 +62,17 @@
     <ClCompile Include="FuzzyLogic.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="FuzzyInput.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="FuzzySet.cpp">
       <Filter>Archivos de origen\Clases Genericas</Filter>
     </ClCompile>
     <ClCompile Include="Fuzzy.cpp">
       <Filter>Archivos de origen\Fuzzy</Filter>
     </ClCompile>
+    <ClCompile Include="FuzzyInput.cpp">
+      <Filter>Archivos de origen\Entradas Difusas</Filter>
+    </ClCompile>
     <ClCompile Include="FuzzyOutput.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\Salida</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

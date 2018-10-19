@@ -3,8 +3,10 @@
 #define FUZZY_H
 
 #include "FuzzyInput.h"
+#include "FuzzySet.h"
 #include <math.h>
 #include <malloc.h>
+
 
 //lista de entradas difusas
 struct fuzzyInputArray
@@ -13,11 +15,6 @@ struct fuzzyInputArray
 	fuzzyInputArray *next;
 };
 
-struct fuzzySetArray
-{
-	FuzzySet *fuzzySet;
-	fuzzySetArray *next;
-};
 
 class Fuzzy
 {
@@ -25,6 +22,7 @@ public:
 	Fuzzy();
 	~Fuzzy();
 	bool addFuzzyInput(FuzzyInput *fuzzyInput);
+	int sizeFuzzyInputArray();
 	bool fuzzify();
 private:
 	fuzzyInputArray* fuzzyInputs;
