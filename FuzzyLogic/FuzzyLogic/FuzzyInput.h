@@ -22,6 +22,7 @@ public:
 	bool addFuzzySet(FuzzySet* fuzzySet);
 	void resetFuzzySet(); //Resetea las pertenencias del arreglo de fuzzySet
 	void cleanFuzzySet(fuzzySetArray *aux); //Libera la memoria del arreglo de fuzzySet
+	fuzzySetArray* getFuzzySets();
 private:
 	int index;
 	float crispInput;

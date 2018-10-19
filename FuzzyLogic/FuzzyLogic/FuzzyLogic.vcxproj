@@ -151,13 +151,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Fuzzy.h" />
     <ClInclude Include="FuzzyInput.h" />
+    <ClInclude Include="FuzzyOutput.h" />
     <ClInclude Include="FuzzySet.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="FuzzyInput.cpp" />
     <ClCompile Include="FuzzyLogic.cpp" />
+    <ClCompile Include="FuzzyOutput.cpp" />
     <ClCompile Include="FuzzySet.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

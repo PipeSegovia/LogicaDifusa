@@ -25,6 +25,18 @@
     <Filter Include="Archivos de origen\Clases Genericas">
       <UniqueIdentifier>{4f0165bf-263a-4366-99a7-bb97c8061891}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Fuzzy">
+      <UniqueIdentifier>{8655bade-4747-4b4f-9364-687215b51941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Fuzzy">
+      <UniqueIdentifier>{5933761b-622d-4881-bd99-318912bc615d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Salida">
+      <UniqueIdentifier>{68888104-df3b-4f7d-b512-5a03db85b4fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Salida">
+      <UniqueIdentifier>{c87ffd4c-28f0-407c-add4-8a607d6aa9b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -35,6 +47,12 @@
     </ClInclude>
     <ClInclude Include="FuzzySet.h">
       <Filter>Archivos de encabezado\Clases Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="Fuzzy.h">
+      <Filter>Archivos de encabezado\Fuzzy</Filter>
+    </ClInclude>
+    <ClInclude Include="FuzzyOutput.h">
+      <Filter>Archivos de encabezado\Salida</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +67,12 @@
     </ClCompile>
     <ClCompile Include="FuzzySet.cpp">
       <Filter>Archivos de origen\Clases Genericas</Filter>
+    </ClCompile>
+    <ClCompile Include="Fuzzy.cpp">
+      <Filter>Archivos de origen\Fuzzy</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzyOutput.cpp">
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

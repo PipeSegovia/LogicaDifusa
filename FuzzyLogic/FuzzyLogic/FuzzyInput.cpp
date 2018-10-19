@@ -58,3 +58,8 @@ void FuzzyInput::cleanFuzzySet(fuzzySetArray *aux)
 		free(aux);
 	}
 }
+
+fuzzySetArray* FuzzyInput::getFuzzySets()
+{
+	return this->fuzzySet;
+}
