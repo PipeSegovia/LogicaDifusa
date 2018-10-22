@@ -5,6 +5,7 @@
 Fuzzy::Fuzzy()
 {
 	this->fuzzyInputs = NULL;
+	this->fuzzyRules = NULL;
 }
 
 
@@ -38,6 +39,31 @@ bool Fuzzy::addFuzzyInput(FuzzyInput * fuzzyInput)
 	return true;
 }
 
+bool Fuzzy::addFuzzyRule(FuzzyRule * fuzzyRule)
+{
+	fuzzyRuleArray *aux = (fuzzyRuleArray*)malloc(sizeof(fuzzyRuleArray));
+	if (aux == NULL)
+	{
+		return false;
+	}
+
+	aux->fuzzyRule = fuzzyRule;
+	aux->next = NULL;
+
+	if (this->fuzzyRules == NULL)
+	{
+		this->fuzzyRules = aux;
+	}
+	else
+	{
+		fuzzyRuleArray *nodoAux = this->fuzzyRules;
+		this->fuzzyRules = aux;
+		this->fuzzyRules->next = nodoAux;
+	}
+
+	return true;
+}
+
 bool Fuzzy::fuzzify()
 {
 
@@ -59,6 +85,16 @@ bool Fuzzy::fuzzify()
 		fuzzyInputAux = fuzzyInputAux->next;
 	}
 
+	//Evaluando las reglas que se van a disparar
+	fuzzyRuleArray *fuzzyRuleAux;
+	fuzzyRuleAux = this->fuzzyRules;
+	//Calculando las pertenencias de todos los FuzzyInput
+	while (fuzzyRuleAux != NULL)
+	{
+		fuzzyRuleAux->fuzzyRule->evaluateExpression();
+		fuzzyRuleAux = fuzzyRuleAux->next;
+	}
+
 	return true;
 }
 
@@ -73,6 +109,19 @@ bool Fuzzy::setInput(int fuzzyInputIndex, float crispValue)
 		{
 			aux->fuzzyInput->set_crispInput(crispValue);
 			return true;
+		}
+		aux = aux->next;
+	}
+	return false;
+}
+
+bool Fuzzy::isFiredRule(int fuzzyRuleIndex)
+{
+	fuzzyRuleArray *aux;
+	aux = this->fuzzyRules;
+	while (aux != NULL) {
+		if (aux->fuzzyRule->getIndex() == fuzzyRuleIndex) {
+			return aux->fuzzyRule->isFired();
 		}
 		aux = aux->next;
 	}

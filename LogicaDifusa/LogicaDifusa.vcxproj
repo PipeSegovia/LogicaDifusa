@@ -155,6 +155,7 @@
     <ClInclude Include="FuzzyAntecedent.h" />
     <ClInclude Include="FuzzyInput.h" />
     <ClInclude Include="FuzzyIO.h" />
+    <ClInclude Include="FuzzyRule.h" />
     <ClInclude Include="FuzzyRuleConsequent.h" />
     <ClInclude Include="FuzzySet.h" />
     <ClInclude Include="pch.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="FuzzyAntecedent.cpp" />
     <ClCompile Include="FuzzyInput.cpp" />
     <ClCompile Include="FuzzyIO.cpp" />
+    <ClCompile Include="FuzzyRule.cpp" />
     <ClCompile Include="FuzzyRuleConsequent.cpp" />
     <ClCompile Include="FuzzySet.cpp" />
     <ClCompile Include="LogicaDifusa.cpp" />
