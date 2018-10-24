@@ -4,9 +4,12 @@
 
 #include <stdlib.h>
 
-//Lista que almacena los puntos de la funcion de pertenencia de salida
+#define EPS 1.0E-3
+
+//Lista enlazada que almacena los puntos de la funcion de pertenencia de salida
 struct pointsArray
 {
+	pointsArray* previous;
 	float point;
 	float pertinence;
 	pointsArray *next;
@@ -19,8 +22,15 @@ public:
 	~FuzzyComposition();
 	bool addPoint(float point, float pertinence);
 	bool checkPoint(float point,float pertinence); //ve si existe este punto
+	bool build();
+	float avaliate();
+private:
+	bool rebuild(pointsArray* aSegmentBegin, pointsArray* aSegmentEnd, pointsArray* bSegmentBegin, pointsArray* bSegmentEnd);
+	bool rmvPoint(pointsArray *point);
+
 private:
 	pointsArray *points;
+	pointsArray *pointsCursor;
 };
 
 

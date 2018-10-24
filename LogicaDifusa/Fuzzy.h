@@ -4,6 +4,7 @@
 
 #include "FuzzyInput.h"
 #include "FuzzyRule.h"
+#include "FuzzyOutput.h"
 
 //Lista de entradas difusa
 struct fuzzyInputArray
@@ -19,6 +20,13 @@ struct fuzzyRuleArray
 	fuzzyRuleArray *next;
 };
 
+//Lista de salidas difusas
+struct fuzzyOutputArray
+{
+	FuzzyOutput *fuzzyOutput;
+	fuzzyOutputArray *next;
+};
+
 class Fuzzy
 {
 public:
@@ -26,12 +34,15 @@ public:
 	~Fuzzy();
 	bool addFuzzyInput(FuzzyInput* fuzzyInput);
 	bool addFuzzyRule(FuzzyRule *fuzzyRule);
+	bool addFuzzyOutput(FuzzyOutput *fuzzyOutput);
 	bool fuzzify();
 	bool setInput(int fuzzyInputIndex,float crispValue);
 	bool isFiredRule(int fuzzyRuleIndex);
+	float defuzzify(int fuzzyOutputIndex);
 private:
 	fuzzyInputArray* fuzzyInputs;
 	fuzzyRuleArray *fuzzyRules;
+	fuzzyOutputArray *fuzzyOutputs;
 };
 
 #endif // !FUZZY_H

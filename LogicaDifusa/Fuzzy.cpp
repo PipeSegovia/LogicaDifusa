@@ -64,10 +64,36 @@ bool Fuzzy::addFuzzyRule(FuzzyRule * fuzzyRule)
 	return true;
 }
 
+bool Fuzzy::addFuzzyOutput(FuzzyOutput * fuzzyOutput)
+{
+	fuzzyOutputArray *aux = (fuzzyOutputArray*)malloc(sizeof(fuzzyOutputArray));
+	if (aux == NULL)
+	{
+		return false;
+	}
+
+	aux->fuzzyOutput = fuzzyOutput;
+	aux->next = NULL;
+
+	if (this->fuzzyOutputs == NULL)
+	{
+		this->fuzzyOutputs = aux;
+	}
+	else
+	{
+		fuzzyOutputArray *nodoAux = this->fuzzyOutputs;
+		this->fuzzyOutputs = aux;
+		this->fuzzyOutputs->next = nodoAux;
+	}
+
+	return true;
+}
+
 bool Fuzzy::fuzzify()
 {
 
 	fuzzyInputArray* fuzzyInputAux;
+	fuzzyOutputArray *fuzzyOutputAux;
 
 	fuzzyInputAux = this->fuzzyInputs;
 	//Reseteo los valores de pertenencia de los conjuntos difusos
@@ -93,6 +119,14 @@ bool Fuzzy::fuzzify()
 	{
 		fuzzyRuleAux->fuzzyRule->evaluateExpression();
 		fuzzyRuleAux = fuzzyRuleAux->next;
+	}
+
+	//Trunco los conjuntos de salida
+	fuzzyOutputAux = this->fuzzyOutputs;
+	while (fuzzyOutputAux != NULL)
+	{
+		fuzzyOutputAux->fuzzyOutput->truncate();
+		fuzzyOutputAux = fuzzyOutputAux->next;
 	}
 
 	return true;
@@ -126,4 +160,17 @@ bool Fuzzy::isFiredRule(int fuzzyRuleIndex)
 		aux = aux->next;
 	}
 	return false;
+}
+
+float Fuzzy::defuzzify(int fuzzyOutputIndex)
+{
+	fuzzyOutputArray *aux;
+	aux = this->fuzzyOutputs;
+	while (aux != NULL) {
+		if (aux->fuzzyOutput->getIndex() == fuzzyOutputIndex) {
+			return aux->fuzzyOutput->getCrispOutput();
+		}
+		aux = aux->next;
+	}
+	return 0;
 }
