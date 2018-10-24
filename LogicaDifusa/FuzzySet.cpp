@@ -26,6 +26,26 @@ FuzzySet::~FuzzySet()
 {
 }
 
+float FuzzySet::getPointA()
+{
+	return this->a;
+}
+
+float FuzzySet::getPointB()
+{
+	return this->b;
+}
+
+float FuzzySet::getPointC()
+{
+	return this->c;
+}
+
+float FuzzySet::getPointD()
+{
+	return this->d;
+}
+
 void FuzzySet::calculatePertinence(float crispValue)
 {
 	switch (this->typeFunction)
@@ -62,15 +82,15 @@ void FuzzySet::functionL(float crispValue)
 
 void FuzzySet::functionGamma(float crispValue)
 {
-	if (crispValue <= this->a)
+	if (crispValue <= this->c)
 	{
 		this->pertinence = 0.0f;
 	}
-	else if (crispValue > this->a && crispValue < this->b)
+	else if (crispValue > this->c && crispValue < this->d)
 	{
-		this->pertinence = (crispValue - this->a) / (this->b - this->a);
+		this->pertinence = (crispValue - this->c) / (this->d - this->c);
 	}
-	else if (crispValue >= this->b)
+	else if (crispValue >= this->d)
 	{
 		this->pertinence = 1.0f;
 	}

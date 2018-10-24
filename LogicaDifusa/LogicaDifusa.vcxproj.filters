@@ -39,6 +39,12 @@
     <ClInclude Include="FuzzyRule.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="FuzzyOutput.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="FuzzyComposition.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -66,6 +72,12 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="FuzzyRule.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzyOutput.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzyComposition.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

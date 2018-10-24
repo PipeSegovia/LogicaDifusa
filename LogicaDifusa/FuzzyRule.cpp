@@ -33,6 +33,7 @@ bool FuzzyRule::evaluateExpression()
 		(powerOfAntecedent > 0.0) ? (this->fired = true) : (this->fired = false);
 
 		this->fuzzyRuleConsecuent->evaluate(powerOfAntecedent);
+		this->power = powerOfAntecedent;
 	}
 	return this->fired;
 }
@@ -40,4 +41,9 @@ bool FuzzyRule::evaluateExpression()
 bool FuzzyRule::isFired()
 {
 	return this->fired;
+}
+
+float FuzzyRule::getPowerOfRule()
+{
+	return this->power;
 }

@@ -15,12 +15,14 @@ public:
 	int getIndex();
 	bool evaluateExpression();
 	bool isFired();
+	float getPowerOfRule();
 	
 private:
 	int index;
 	bool fired; 
 	FuzzyAntecedent *fuzzyRuleAntecedent;
 	FuzzyRuleConsequent *fuzzyRuleConsecuent;
+	float power;
 };
 
 #endif // !FUZZYRULE_H

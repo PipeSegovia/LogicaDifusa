@@ -153,8 +153,10 @@
   <ItemGroup>
     <ClInclude Include="Fuzzy.h" />
     <ClInclude Include="FuzzyAntecedent.h" />
+    <ClInclude Include="FuzzyComposition.h" />
     <ClInclude Include="FuzzyInput.h" />
     <ClInclude Include="FuzzyIO.h" />
+    <ClInclude Include="FuzzyOutput.h" />
     <ClInclude Include="FuzzyRule.h" />
     <ClInclude Include="FuzzyRuleConsequent.h" />
     <ClInclude Include="FuzzySet.h" />
@@ -163,8 +165,10 @@
   <ItemGroup>
     <ClCompile Include="Fuzzy.cpp" />
     <ClCompile Include="FuzzyAntecedent.cpp" />
+    <ClCompile Include="FuzzyComposition.cpp" />
     <ClCompile Include="FuzzyInput.cpp" />
     <ClCompile Include="FuzzyIO.cpp" />
+    <ClCompile Include="FuzzyOutput.cpp" />
     <ClCompile Include="FuzzyRule.cpp" />
     <ClCompile Include="FuzzyRuleConsequent.cpp" />
     <ClCompile Include="FuzzySet.cpp" />

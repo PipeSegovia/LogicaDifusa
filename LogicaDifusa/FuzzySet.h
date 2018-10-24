@@ -12,6 +12,12 @@ public:
 	float getPertinence();
 	void reset();
 	~FuzzySet();
+	//Metodos no modificados
+	float getPointA();
+	float getPointB();
+	float getPointC();
+	float getPointD();
+
 private:
 	void functionL(float crispValue);
 	void functionGamma(float crispValue);
