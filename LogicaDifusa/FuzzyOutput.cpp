@@ -36,8 +36,33 @@ bool FuzzyOutput::truncate()
 			//Si es Trapezio
 			if (aux->fuzzySet->getPointA() != aux->fuzzySet->getPointB() && aux->fuzzySet->getPointB() != aux->fuzzySet->getPointC() && aux->fuzzySet->getPointC() != aux->fuzzySet->getPointD())
 			{
-				if (aux->fuzzySet->getPertinence() == 1.0)
-				{
+				if (aux->fuzzySet->getPertinence() == 1.0) {
+					if (this->fuzzyComposition.checkPoint(aux->fuzzySet->getPointB(), aux->fuzzySet->getPertinence()) == false) {
+						this->fuzzyComposition.addPoint(aux->fuzzySet->getPointB(), aux->fuzzySet->getPertinence());
+					}
+
+					if (this->fuzzyComposition.checkPoint(aux->fuzzySet->getPointC(), aux->fuzzySet->getPertinence()) == false) {
+						this->fuzzyComposition.addPoint(aux->fuzzySet->getPointC(), aux->fuzzySet->getPertinence());
+					}
+				}
+				else {
+					float newPointB = aux->fuzzySet->getPointB();
+					float newPertinenceB = aux->fuzzySet->getPertinence();
+
+					rebuild(aux->fuzzySet->getPointA(), 0.0, aux->fuzzySet->getPointB(), 1.0, aux->fuzzySet->getPointA(), aux->fuzzySet->getPertinence(), aux->fuzzySet->getPointD(), aux->fuzzySet->getPertinence(), &newPointB, &newPertinenceB);
+
+					if (this->fuzzyComposition.checkPoint(newPointB, newPertinenceB) == false) {
+						this->fuzzyComposition.addPoint(newPointB, newPertinenceB);
+					}
+
+					float newPointC = aux->fuzzySet->getPointB();
+					float newPertinenceC = aux->fuzzySet->getPertinence();
+
+					rebuild(aux->fuzzySet->getPointC(), 1.0, aux->fuzzySet->getPointD(), 0.0, aux->fuzzySet->getPointA(), aux->fuzzySet->getPertinence(), aux->fuzzySet->getPointD(), aux->fuzzySet->getPertinence(), &newPointC, &newPertinenceC);
+
+					if (this->fuzzyComposition.checkPoint(newPointC, newPertinenceC) == false) {
+						this->fuzzyComposition.addPoint(newPointC, newPertinenceC);
+					}
 				}
 			}
 			//Si es Gamma
