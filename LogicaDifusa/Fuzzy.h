@@ -40,8 +40,11 @@ public:
 	bool isFiredRule(int fuzzyRuleIndex);
 	float defuzzify(int fuzzyOutputIndex);
 private:
+	fuzzyInputArray* fuzzyInputsCursor;
 	fuzzyInputArray* fuzzyInputs;
 	fuzzyRuleArray *fuzzyRules;
+	fuzzyRuleArray* fuzzyRulesCursor;
+	fuzzyOutputArray* fuzzyOutputsCursor;
 	fuzzyOutputArray *fuzzyOutputs;
 };
 

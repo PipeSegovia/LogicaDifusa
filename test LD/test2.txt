@@ -1,0 +1,146 @@
+cout << ("Percepciones cantidad de ayuda y desempeño ") << endl;
+
+	int const L = 1;
+	int const GAMMA = 2;
+	int const TRAPEZOIDAL = 3;
+
+	Fuzzy* fuzzy = new Fuzzy();
+
+	//Entradas 
+	//Cantidad de Ayudas
+
+	FuzzyInput* cantAyuda = new FuzzyInput(1);
+
+	FuzzySet* aceptable = new FuzzySet(1.0f, 3.0f, 0.0f, 0.0f, L);
+	cantAyuda->addFuzzySet(aceptable);
+	FuzzySet* moderada = new FuzzySet(2.0f, 3.0f, 5.0f, 6.0f, TRAPEZOIDAL);
+	cantAyuda->addFuzzySet(moderada);
+	FuzzySet* inaceptable = new FuzzySet(0.0f,0.0f,5.0f, 7.0f, GAMMA);
+	cantAyuda->addFuzzySet(inaceptable);
+
+	fuzzy->addFuzzyInput(cantAyuda);
+
+	//Demostracion
+
+	FuzzyInput* demostracion = new FuzzyInput(2);
+
+	FuzzySet* buena = new FuzzySet(1.0f, 2.0f,0.0f,0.0f, L);
+	demostracion->addFuzzySet(buena);
+	FuzzySet* regular = new FuzzySet(1.0f, 2.0f, 3.0f, 4.0f, TRAPEZOIDAL);
+	demostracion->addFuzzySet(regular);
+	FuzzySet* mala = new FuzzySet(0.0f,0.0f,3.0f, 4.0f, GAMMA);
+	demostracion->addFuzzySet(mala);
+
+	fuzzy->addFuzzyInput(demostracion);
+
+	//Autonomia (SALIDA)
+	FuzzyOutput* autonomia = new FuzzyOutput(1);
+
+	FuzzySet* buenaAutonomia = new FuzzySet(30.0f, 50.0f,0.0f,0.0f, L);
+	autonomia->addFuzzySet(buenaAutonomia);
+	FuzzySet* regularAutonomia = new FuzzySet(25.0f, 30.0f,50.0f,70.0f, TRAPEZOIDAL);
+	autonomia->addFuzzySet(regularAutonomia);
+	FuzzySet* malaAutonomia = new FuzzySet(0.0f,0.0f,65.0f, 80.0f, GAMMA);
+	autonomia->addFuzzySet(malaAutonomia);
+
+	fuzzy->addFuzzyOutput(autonomia);
+
+	//Cargo la Base de conocimiento
+
+	//Regla 1
+	FuzzyAntecedent* aceptableANDbuena = new FuzzyAntecedent();
+	aceptableANDbuena->joinAND(aceptable, buena);
+	FuzzyAntecedent* aceptableANDregular = new FuzzyAntecedent();
+	aceptableANDregular->joinAND(aceptable, regular);
+	FuzzyAntecedent* aceptableANDbuenaORaceptableANDregular = new FuzzyAntecedent();
+	aceptableANDbuenaORaceptableANDregular->joinOR(aceptableANDbuena, aceptableANDregular);
+
+	FuzzyRuleConsequent* thenAlta = new FuzzyRuleConsequent();
+	thenAlta->addOutput(buenaAutonomia);
+
+	FuzzyRule* rule1 = new FuzzyRule(1, aceptableANDbuenaORaceptableANDregular, thenAlta);
+	fuzzy->addFuzzyRule(rule1);
+
+	//Regla 2
+	FuzzyAntecedent* aceptableANDmala = new FuzzyAntecedent();
+	aceptableANDmala->joinAND(aceptable, mala);
+	FuzzyAntecedent* moderadaANDbuena = new FuzzyAntecedent();
+	moderadaANDbuena->joinAND(moderada, buena);
+	FuzzyAntecedent* aceptableANDmalaORmoderadaANDbuena = new FuzzyAntecedent();
+	aceptableANDmalaORmoderadaANDbuena->joinOR(aceptableANDmala, moderadaANDbuena);
+
+	FuzzyRuleConsequent* thenRegular = new FuzzyRuleConsequent();
+	thenRegular->addOutput(regularAutonomia);
+
+	FuzzyRule* rule2 = new FuzzyRule(2, aceptableANDmalaORmoderadaANDbuena, thenRegular);
+	fuzzy->addFuzzyRule(rule2);
+
+	//Regla 3
+	FuzzyAntecedent* moderadaANDregular = new FuzzyAntecedent();
+	moderadaANDregular->joinAND(moderada, regular);
+	FuzzyAntecedent* inaceptableANDbuena = new FuzzyAntecedent();
+	inaceptableANDbuena->joinAND(inaceptable, buena);
+	FuzzyAntecedent* moderadaANDregularORinaceptableANDbuena = new FuzzyAntecedent();
+	moderadaANDregularORinaceptableANDbuena->joinOR(moderadaANDregular, inaceptableANDbuena);
+
+	FuzzyRuleConsequent* thenRegular2 = new FuzzyRuleConsequent();
+	thenRegular2->addOutput(regularAutonomia);
+
+	FuzzyRule* rule3 = new FuzzyRule(3, moderadaANDregularORinaceptableANDbuena, thenRegular2);
+	fuzzy->addFuzzyRule(rule3);
+
+	//Regla 4
+	FuzzyAntecedent *moderadaANDmala = new FuzzyAntecedent();
+	moderadaANDmala->joinAND(moderada,mala);
+	FuzzyAntecedent *inaceptableANDregular = new FuzzyAntecedent();
+	inaceptableANDregular->joinAND(inaceptable,regular);
+
+	FuzzyAntecedent *moderadaANDmalaORinaceptableANDregular = new FuzzyAntecedent();
+	moderadaANDmalaORinaceptableANDregular->joinOR(moderadaANDmala, inaceptableANDregular);
+
+	FuzzyRuleConsequent *thenBaja = new FuzzyRuleConsequent();
+	thenBaja->addOutput(malaAutonomia);
+
+	FuzzyRule *rule4 = new FuzzyRule(4, moderadaANDmalaORinaceptableANDregular,thenBaja);
+	fuzzy->addFuzzyRule(rule4);
+
+	//Regla 5
+	FuzzyAntecedent* inaceptableANDmala = new FuzzyAntecedent();
+	inaceptableANDmala->joinAND(inaceptable,mala);
+
+	FuzzyRuleConsequent* thenBaja2 = new FuzzyRuleConsequent();
+	thenBaja2->addOutput(malaAutonomia);
+
+	FuzzyRule* rule5 = new FuzzyRule(5, inaceptableANDmala, thenBaja2);
+	fuzzy->addFuzzyRule(rule5);
+
+	//Añado los valores de entrada
+
+	fuzzy->setInput(1, 4.5f);
+	fuzzy->setInput(2, 2.5f);
+
+	//Fusifico
+
+	fuzzy->fuzzify();
+
+	cout << "Cantidad de Ayuda " << aceptable->getPertinence() << ", " << moderada->getPertinence() << ", " << inaceptable->getPertinence() << endl;
+	cout << "Demostracion: " << buena->getPertinence() << ", " << regular->getPertinence() << ", " << mala->getPertinence() << endl;
+	
+	cout << "Valor Regla 1: " << rule1->getPowerOfRule() << "  Activacion: " << rule1->isFired() << endl;
+	cout << "Valor Regla 2: " << rule2->getPowerOfRule() << "  Activacion: " << rule2->isFired() << endl;
+	cout << "Valor Regla 3: " << rule3->getPowerOfRule() << "  Activacion: " << rule3->isFired() << endl;
+	cout << "Valor Regla 4: " << rule4->getPowerOfRule() << "  Activacion: " << rule4->isFired() << endl;
+	cout << "Valor Regla 5: " << rule5->getPowerOfRule() << "  Activacion: " << rule5->isFired() << endl;
+
+	cout << endl;
+	cout << "Pertenencias salida: " << endl;
+	cout << "Pertenencia Buena: " << buenaAutonomia->getPertinence() << "  Pertenencia Regular: " << regularAutonomia->getPertinence() << "  Pertenencia Mala: " << malaAutonomia->getPertinence() << endl;
+
+	//Defusifico
+
+	float output = fuzzy->defuzzify(1);
+
+	cout << endl;
+	cout << "Salida defusificada: " << output << endl;
+	
+	cin.get();

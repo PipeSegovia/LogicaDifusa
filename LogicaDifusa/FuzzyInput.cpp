@@ -6,7 +6,7 @@ FuzzyInput::FuzzyInput()
 {
 }
 
-FuzzyInput::FuzzyInput(int index) 
+FuzzyInput::FuzzyInput(int index) : FuzzyIO(index)
 {
 	this->index = index;
 }

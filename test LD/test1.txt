@@ -1,0 +1,216 @@
+#include "pch.h"
+#include "FuzzyInput.h"
+#include "FuzzyOutput.h"
+#include "FuzzySet.h"
+#include "Fuzzy.h"
+#include "FuzzyAntecedent.h"
+#include "FuzzyRuleConsequent.h"
+#include "FuzzyRule.h"
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	cout << "Logica Difusa" << endl;
+
+	//Fuzzy: Clase que permite fusificar y defusificar
+	Fuzzy* fuzzy = new Fuzzy();
+
+	//Tipo de funcion de pertenencia
+	int const L = 1;
+	int const GAMMA = 2;
+	int const TRAPEZOIDE = 3;
+
+
+	//Ingreso las entradas difusas (FUZZY INPUT)
+	FuzzyInput *tipoSonido = new FuzzyInput(1);
+	FuzzyInput *duracion = new FuzzyInput(2);
+	FuzzyInput *intensidad = new FuzzyInput(3);
+
+	//Creo los conjuntos difusos (FuzzySet) y los añado a cada entrada difusa (FuzzyInput)
+
+	//FuzzySet para Tipo sonido
+	FuzzySet* otro = new FuzzySet(0.3f, 0.4f, 0.0f, 0.0f, L);
+	FuzzySet* humano = new FuzzySet(0.3f, 0.4f, 0.6f, 0.8f, TRAPEZOIDE);
+	FuzzySet* bebe = new FuzzySet(0.0f, 0.0f, 0.6f, 0.8f, GAMMA);
+
+	//Se agregan los conjuntos difusos a tipo sonido
+	tipoSonido->addFuzzySet(otro);
+	tipoSonido->addFuzzySet(humano);
+	tipoSonido->addFuzzySet(bebe);
+
+	//FuzzySet para duracion
+
+	FuzzySet* puntual = new FuzzySet(0.1f, 0.2f, 0.0f, 0.0f, L);
+	FuzzySet* normal = new FuzzySet(0.1f, 0.2f, 0.5f, 0.7f, TRAPEZOIDE);
+	FuzzySet* continuo = new FuzzySet(0.0f, 0.0f, 0.5f, 0.7f, GAMMA);
+
+	//Se agregan los conjuntos difusos a duracion
+	duracion->addFuzzySet(puntual);
+	duracion->addFuzzySet(normal);
+	duracion->addFuzzySet(continuo);
+
+	//FuzzySet para intensidad
+	FuzzySet* debil = new FuzzySet(0.4f, 0.6f, 0.0f, 0.0f, L);
+	FuzzySet* fuerte = new FuzzySet(0.0f, 0.0f, 0.4f, 0.6f, GAMMA);
+
+	//Se agregan los conjuntos difusos a intensidad
+	intensidad->addFuzzySet(debil);
+	intensidad->addFuzzySet(fuerte);
+
+	//Ingreso las salidas difusas
+
+	FuzzyOutput *modo = new FuzzyOutput(1);
+	//FuzzySet para modo
+	FuzzySet* esperaModo = new FuzzySet(0.3f, 0.4f, 0.0f, 0.0f, L);
+	FuzzySet* normalModo = new FuzzySet(0.0f, 0.0f, 0.3f, 0.7f, GAMMA);
+
+	//Se agregan los conjuntos difusos a modo
+	modo->addFuzzySet(esperaModo);
+	modo->addFuzzySet(normalModo);
+	
+
+	//Creo las reglas 
+
+	//Regla 1 => IF bebe AND debil AND puntual THEN Espera
+	FuzzyAntecedent *bebeANDdebil = new FuzzyAntecedent();
+	bebeANDdebil->joinAND(bebe, debil);
+	FuzzyAntecedent *bebeANDdebilANDpuntual = new FuzzyAntecedent();
+	bebeANDdebilANDpuntual->joinAND(bebeANDdebil, puntual);
+	FuzzyRuleConsequent *thenEspera = new FuzzyRuleConsequent();
+	thenEspera->addOutput(esperaModo);
+
+	FuzzyRule *regla1 = new FuzzyRule(1, bebeANDdebilANDpuntual, thenEspera);
+
+	
+	//Regla 2 => IF bebe AND debil AND (normal OR continuo) THEN normal
+	FuzzyAntecedent *bebeANDdebil2 = new FuzzyAntecedent();
+	bebeANDdebil2->joinAND(bebe, debil);
+	FuzzyAntecedent *normalORcontinuo = new FuzzyAntecedent();
+	normalORcontinuo->joinOR(normal, continuo);
+
+	FuzzyAntecedent *ifbebeANDdebilANDnormalORcontinuo = new FuzzyAntecedent();
+	ifbebeANDdebilANDnormalORcontinuo->joinAND(bebeANDdebil2, normalORcontinuo);
+
+	FuzzyRuleConsequent* thenNormal = new FuzzyRuleConsequent();
+	thenNormal->addOutput(normalModo);
+
+	FuzzyRule *regla2 = new FuzzyRule(2, ifbebeANDdebilANDnormalORcontinuo, thenNormal);
+
+	//Regla 3 => IF bebe AND fuerte THEN normal
+
+	FuzzyAntecedent *bebeANDfuerte = new FuzzyAntecedent();
+	bebeANDfuerte->joinAND(bebe, fuerte);
+
+	FuzzyRuleConsequent *thenNormal3 = new FuzzyRuleConsequent();
+	thenNormal3->addOutput(normalModo);
+
+	FuzzyRule *regla3 = new FuzzyRule(3, bebeANDfuerte, thenNormal3);
+
+	//Regla 4 => if humano THEN espera
+
+	FuzzyAntecedent *ifhumano = new FuzzyAntecedent();
+	ifhumano->joinSingle(humano);
+
+	FuzzyRuleConsequent *thenEspera2 = new FuzzyRuleConsequent();
+	thenEspera2->addOutput(esperaModo);
+
+	FuzzyRule *regla4 = new FuzzyRule(4,ifhumano,thenEspera2);
+
+	//Regla 5 => if otro AND debil THEN espera
+
+	FuzzyAntecedent *otroANDdebil = new FuzzyAntecedent();
+	otroANDdebil->joinAND(otro,debil);
+
+	FuzzyRuleConsequent *thenEspera3 = new FuzzyRuleConsequent();
+	thenEspera3->addOutput(esperaModo);
+
+	FuzzyRule *regla5 = new FuzzyRule(5, otroANDdebil, thenEspera3);
+
+	//Regla 6 => if otro AND fuerte AND (puntual OR normal) THEN normal
+
+	FuzzyAntecedent *otroANDfuerte = new FuzzyAntecedent();
+	otroANDfuerte->joinAND(otro,fuerte);
+
+	FuzzyAntecedent *puntualORnormal = new FuzzyAntecedent();
+	puntualORnormal->joinOR(puntual,normal);
+
+	FuzzyAntecedent *otroANDfuerteANDpuntualORnormal = new FuzzyAntecedent();
+	otroANDfuerteANDpuntualORnormal->joinAND(otroANDfuerte, puntualORnormal);
+
+	FuzzyRuleConsequent *thenNormal4 = new FuzzyRuleConsequent();
+	thenNormal4->addOutput(normalModo);
+
+	FuzzyRule *regla6 = new FuzzyRule(6, otroANDfuerteANDpuntualORnormal, thenNormal4);
+	//Regla 7 =>if otro AND fuerte AND continuo THEN espera
+
+	FuzzyAntecedent *otroANDfuerte2 = new FuzzyAntecedent();
+	otroANDfuerte2->joinAND(otro,fuerte);
+
+	FuzzyAntecedent *otroANDfuerteANDcontinuo = new FuzzyAntecedent();
+	otroANDfuerteANDcontinuo->joinAND(otroANDfuerte2,continuo);
+
+	FuzzyRuleConsequent *thenEspera4 = new FuzzyRuleConsequent();
+	thenEspera4->addOutput(esperaModo);
+
+	FuzzyRule *regla7 = new FuzzyRule(7, otroANDfuerteANDcontinuo, thenEspera4);
+
+	//Agrego las reglas a la clase fuzzy
+
+	fuzzy->addFuzzyRule(regla1);
+	fuzzy->addFuzzyRule(regla2);
+	fuzzy->addFuzzyRule(regla3);
+	fuzzy->addFuzzyRule(regla4);
+	fuzzy->addFuzzyRule(regla5);
+	fuzzy->addFuzzyRule(regla6);
+	fuzzy->addFuzzyRule(regla7);
+
+
+	//Agrego las entradas difusas a la clase Fuzzy
+	fuzzy->addFuzzyInput(tipoSonido);
+	fuzzy->addFuzzyInput(duracion);
+	fuzzy->addFuzzyInput(intensidad);
+
+	//Agrego las salidas difusas a la clase fuzzy
+
+	fuzzy->addFuzzyOutput(modo);
+
+	//fuzzy->addFuzzyOutput(modo);
+
+	//Ingreso los valores de entrada
+	fuzzy->setInput(1, 0.75f);
+	fuzzy->setInput(2, 0.57f);
+	fuzzy->setInput(3, 0.54f);
+
+
+	//Fusifico
+	fuzzy->fuzzify();
+
+	cout << "Pertenencia otro: " << otro->getPertinence() << "	Humano: " << humano->getPertinence() << "	bebe: " << bebe->getPertinence() << endl;
+	cout << "Pertenencia puntual: " << puntual->getPertinence() << "	normal: " << normal->getPertinence() << "	continuo: " << continuo->getPertinence() << endl;
+	cout << "Pertenencia debil: " << debil->getPertinence() << "	Fuerte: " << fuerte->getPertinence() << endl;
+
+	cout << endl;
+
+	cout << "Valor Regla 1: " << regla1->getPowerOfRule() << "  Activacion: " << regla1->isFired() << endl;
+	cout << "Valor Regla 2: " << regla2->getPowerOfRule() << "  Activacion: " << regla2->isFired() << endl;
+	cout << "Valor Regla 3: " << regla3->getPowerOfRule() << "  Activacion: " << regla3->isFired() << endl;
+	cout << "Valor Regla 4: " << regla4->getPowerOfRule() << "  Activacion: " << regla4->isFired() << endl;
+	cout << "Valor Regla 5: " << regla5->getPowerOfRule() << "  Activacion: " << regla5->isFired() << endl;
+	cout << "Valor Regla 6: " << regla6->getPowerOfRule() << "  Activacion: " << regla6->isFired() << endl;
+	cout << "Valor Regla 7: " << regla7->getPowerOfRule() << "  Activacion: " << regla7->isFired() << endl;
+	cout << endl;
+	cout << "**Activacion: 1 -> regla activada 0 -> regla no activada**" << endl;
+	cout << endl;
+	cout << "Pertenencias salida: " << endl;
+	cout << "Pertenencia Normal: " << normalModo->getPertinence() << "  Pertenencia Espera: "  << esperaModo->getPertinence() << endl;
+
+	float output = fuzzy->defuzzify(1);
+
+	cout << endl;
+	cout << "Salida defusificada: " << output << endl;
+
+	cin.get();
+}
+

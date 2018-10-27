@@ -5,7 +5,11 @@
 Fuzzy::Fuzzy()
 {
 	this->fuzzyInputs = NULL;
+	this->fuzzyInputsCursor = NULL;
+	this->fuzzyOutputs = NULL;
+	this->fuzzyOutputsCursor = NULL;
 	this->fuzzyRules = NULL;
+	this->fuzzyRulesCursor = NULL;
 }
 
 
@@ -15,25 +19,22 @@ Fuzzy::~Fuzzy()
 
 bool Fuzzy::addFuzzyInput(FuzzyInput * fuzzyInput)
 {
-	fuzzyInputArray* aux = (fuzzyInputArray*)malloc(sizeof(fuzzyInputArray));
+	fuzzyInputArray* aux;
 
-	if (aux == NULL)
-	{
+	if ((aux = (fuzzyInputArray *)malloc(sizeof(fuzzyInputArray))) == NULL) {
 		return false;
 	}
 
 	aux->fuzzyInput = fuzzyInput;
 	aux->next = NULL;
-	//Esta vacio
-	if (this->fuzzyInputs == NULL)
-	{
+
+	if (this->fuzzyInputs == NULL) {
 		this->fuzzyInputs = aux;
+		this->fuzzyInputsCursor = aux;
 	}
-	else
-	{
-		fuzzyInputArray *nodoAux = this->fuzzyInputs;
-		this->fuzzyInputs = aux;
-		this->fuzzyInputs->next = nodoAux;
+	else {
+		this->fuzzyInputsCursor->next = aux;
+		this->fuzzyInputsCursor = aux;
 	}
 
 	return true;
@@ -41,51 +42,41 @@ bool Fuzzy::addFuzzyInput(FuzzyInput * fuzzyInput)
 
 bool Fuzzy::addFuzzyRule(FuzzyRule * fuzzyRule)
 {
-	fuzzyRuleArray *aux = (fuzzyRuleArray*)malloc(sizeof(fuzzyRuleArray));
-	if (aux == NULL)
-	{
+	fuzzyRuleArray* aux;
+	if ((aux = (fuzzyRuleArray *)malloc(sizeof(fuzzyRuleArray))) == NULL) {
 		return false;
 	}
-
 	aux->fuzzyRule = fuzzyRule;
 	aux->next = NULL;
 
-	if (this->fuzzyRules == NULL)
-	{
+	if (this->fuzzyRules == NULL) {
 		this->fuzzyRules = aux;
+		this->fuzzyRulesCursor = aux;
 	}
-	else
-	{
-		fuzzyRuleArray *nodoAux = this->fuzzyRules;
-		this->fuzzyRules = aux;
-		this->fuzzyRules->next = nodoAux;
+	else {
+		this->fuzzyRulesCursor->next = aux;
+		this->fuzzyRulesCursor = aux;
 	}
-
 	return true;
 }
 
 bool Fuzzy::addFuzzyOutput(FuzzyOutput * fuzzyOutput)
 {
-	fuzzyOutputArray *aux = (fuzzyOutputArray*)malloc(sizeof(fuzzyOutputArray));
-	if (aux == NULL)
-	{
+	fuzzyOutputArray *aux;
+	if ((aux = (fuzzyOutputArray *)malloc(sizeof(fuzzyOutputArray))) == NULL) {
 		return false;
 	}
-
 	aux->fuzzyOutput = fuzzyOutput;
 	aux->next = NULL;
 
-	if (this->fuzzyOutputs == NULL)
-	{
+	if (this->fuzzyOutputs == NULL) {
 		this->fuzzyOutputs = aux;
+		this->fuzzyOutputsCursor = aux;
 	}
-	else
-	{
-		fuzzyOutputArray *nodoAux = this->fuzzyOutputs;
-		this->fuzzyOutputs = aux;
-		this->fuzzyOutputs->next = nodoAux;
+	else {
+		this->fuzzyOutputsCursor->next = aux;
+		this->fuzzyOutputsCursor = aux;
 	}
-
 	return true;
 }
 
